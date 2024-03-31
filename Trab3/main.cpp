@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 struct Product
@@ -21,6 +22,7 @@ int main() {
 	unsigned sells[4] = { 0 };
 	unsigned quantity;
 	float totalToPay = 0;
+	ofstream fout;
 
 	char option;
 	cout << " RapiZinho" << endl;
@@ -157,10 +159,24 @@ int main() {
 
 	system("cls");
 
-	if (tolower(confirmOrder) == 's')
-		cout << "Gerar recibo";
+	if (tolower(confirmOrder) == 's') {
+		cout << "Gerando recibo...";
+		fout.open("pedido_1.txt");
+		fout << "Pedido #1" << endl;
+		fout << "--------------------------------------------------" << endl;
+		for (int i = 0; i < 4; i++) {
+			if (sells[i] != 0) {
+				fout << sells[i] << " X " << products[i].name << " de R$" << products[i].price << " = R$" << sells[i] * products[i].price << endl;
+			}
+		}
+		fout << "Taxa de entrega = R$" << DELIVERY_TAX << endl;
+		fout << "Desconto de " << discountPercentage << "% = R$" << discount << endl;
+		fout << "--------------------------------------------------" << endl;
+		fout << "Total = R$" << totalToPay << endl;
+		fout.close();
+	}
 	else
-		cout << "Não gerar";
+		cout << "Pedido Cancelado";
 
 
 	return 0;
