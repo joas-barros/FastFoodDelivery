@@ -1,8 +1,7 @@
-Pedido #1
+Pedido #2
 --------------------------------------------------
-2 X Pastel de R$5.50 = R$11.00
-2 X Suco de R$4.00 = R$8.00
+7 X Bolo de R$6.00 = R$42.00
 Taxa de entrega = R$6
-Desconto de 10% = R$2.50
+Desconto de 10% = R$7.05
 --------------------------------------------------
-Total = R$22.50
+Total = R$63.45
