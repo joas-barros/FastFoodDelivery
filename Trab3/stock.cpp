@@ -10,6 +10,8 @@ struct Product
 	unsigned stock;
 };
 
+Product* expandVector(Product*, unsigned short);
+
 int main() {
 
 	Product p;
@@ -48,35 +50,36 @@ int main() {
 		switch (tolower(option))
 		{
 		case 'a':
-			if (numberOfProducts != capacity) {
-				cout << "Adicionar" << endl;
-				cout << "---------" << endl;
-				char newName[24];
-				cout << "Produto: ";
-				cin >> newName;
-				cout << "Preço: ";
-				float newPrice;
-				cin >> newPrice;
-				cout << "Quantidade: ";
-				unsigned newStock;
-				cin >> newStock;
-				int position = -1;
-				for (int i = 0; i < numberOfProducts; i++) {
-					if (!strcmp(stock[i].name, newName)) {
-						position = i;
-					}
+			cout << "Adicionar" << endl;
+			cout << "---------" << endl;
+			char newName[24];
+			cout << "Produto: ";
+			cin >> newName;
+			cout << "Preço: ";
+			float newPrice;
+			cin >> newPrice;
+			cout << "Quantidade: ";
+			unsigned newStock;
+			cin >> newStock;
+			int position = -1;
+			for (int i = 0; i < numberOfProducts; i++) {
+				if (!strcmp(stock[i].name, newName)) {
+					position = i;
 				}
-				if (position == -1) {
-					strcpy(stock[numberOfProducts].name, newName);
-					stock[numberOfProducts].price = newPrice;
-					stock[numberOfProducts].stock = newStock;
-					++numberOfProducts;
+			}
+			if (position == -1) {
+				if (numberOfProducts == capacity) {
+					stock = expandVector(stock, capacity);
+					++capacity;
 				}
-				else {
-					stock[position].price = newPrice;
-					stock[position].stock += newStock;
-				}
-
+				strcpy(stock[numberOfProducts].name, newName);
+				stock[numberOfProducts].price = newPrice;
+				stock[numberOfProducts].stock = newStock;
+				++numberOfProducts;
+			}
+			else {
+				stock[position].price = newPrice;
+				stock[position].stock += newStock;
 			}
 			break;
 		case 'e':
@@ -111,7 +114,7 @@ int main() {
 					--numberOfProducts;
 					break;
 				case 'n':
-					cout << "Item " << stock[i].name << " não excluido" << endl;
+					cout << "Item " << stock[choice].name << " não excluido" << endl;
 					break;
 				default:
 					cout << "OPÇÃO INVÁLIDA!!!! Nada feito" << endl;
@@ -149,6 +152,28 @@ int main() {
 		cin >> option;
 	}
 
+	// Escrevendo o arquivo binario
+	ofstream fout;
+	fout.open("stock.dat", ios_base::out || ios_base::binary);
+
+	fout.write((char *) &numberOfProducts, sizeof(unsigned short));
+
+	for (unsigned short i = 0; i < numberOfProducts; ++i)
+		fout.write((char*)& stock[i], sizeof(Product));
+
+	fout.close();
 	delete[] stock;
 	return 0;
+}
+
+Product* expandVector(Product * oldVector, unsigned short size) {
+	Product* newVector = new Product[size + 1];
+
+	for (int i = 0; i < size; i++) {
+		newVector[i] = oldVector[i];
+	}
+
+	delete[] oldVector;
+
+	return newVector;
 }
