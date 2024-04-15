@@ -27,6 +27,37 @@ void toPascalCase(char name[]) {
 		*(p + i) = tolower(name[i]);
 }
 
+char menu() {
+	char option;
+	cout << "Painal de controle" << endl;
+	cout << "===================" << endl;
+	cout << "(A)dicionar" << endl;
+	cout << "(E)xcluir" << endl;
+	cout << "(L)istar" << endl;
+	cout << "(S)air" << endl;
+	cout << "===================" << endl;
+	cout << "Opção: [ ]\b\b";
+	cin >> option;
+	return option;
+}
+
+void list(Product p[], unsigned short size) {
+	if (size == 0) {
+		cout << "Não há produtos no estoque" << endl;
+	}
+	else {
+		cout << "Listagem" << endl;
+		cout << "--------" << endl;
+		cout << fixed;
+		cout.precision(2);
+		for (int i = 0; i < size; i++) {
+			cout << left; cout.width(7);
+			cout << p[i].name << "- R$" << p[i].price << " - " << p[i].stock << " und." << endl;
+		}
+	}
+	system("pause");
+}
+
 void StockController() {
 
 	
@@ -53,16 +84,7 @@ void StockController() {
 
 	fin.close();
 
-	char option;
-	cout << "Painal de controle" << endl;
-	cout << "===================" << endl;
-	cout << "(A)dicionar" << endl;
-	cout << "(E)xcluir" << endl;
-	cout << "(L)istar" << endl;
-	cout << "(S)air" << endl;
-	cout << "===================" << endl;
-	cout << "Opção: [ ]\b\b";
-	cin >> option;
+	char option = menu();
 	
 	while (tolower(option) != 's') {
 		system("cls");
@@ -126,12 +148,8 @@ void StockController() {
 				switch (tolower(confirmation))
 				{
 				case 's':
-					//Product temp;
 					for (int i = choice; i < numberOfProducts - 1; i++) {
 						stock[i] = stock[i + 1];
-						/*strcpy(stock[i].name, stock[i + i].name);
-						stock[i].price = stock[i + 1].price;
-						stock[i].stock = stock[i + 1].stock;*/
 					}
 					strcpy(stock[numberOfProducts - 1].name, " ");
 					stock[numberOfProducts - 1].price = 0;
@@ -147,20 +165,7 @@ void StockController() {
 			}
 			break;
 		case 'l':
-			if (numberOfProducts == 0) {
-				cout << "Não há produtos no estoque" << endl;
-			}
-			else {
-				cout << "Listagem" << endl;
-				cout << "--------" << endl;
-				cout << fixed;
-				cout.precision(2);
-				for (int i = 0; i < numberOfProducts; i++) {
-					cout << left; cout.width(7);
-					cout << stock[i].name << "- R$" << stock[i].price << " - " << stock[i].stock << " und." << endl;
-				}
-			}
-			system("pause");
+			list(stock, numberOfProducts);
 			break;
 		case 's':
 			break;
@@ -171,15 +176,7 @@ void StockController() {
 
 		system("cls");
 
-		cout << "Painal de controle" << endl;
-		cout << "===================" << endl;
-		cout << "(A)dicionar" << endl;
-		cout << "(E)xcluir" << endl;
-		cout << "(L)istar" << endl;
-		cout << "(S)air" << endl;
-		cout << "===================" << endl;
-		cout << "Opção: [ ]\b\b";
-		cin >> option;
+		option = menu();
 	}
 
 	// Escrevendo o arquivo binario
