@@ -1,20 +1,35 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <fstream>
+#include "stock.h"
 using namespace std;
 
-struct Product
-{
-	char name[24];
-	float price;
-	unsigned stock;
-};
+Product* expandVector(Product* oldVector, unsigned short size) {
+	Product* newVector = new Product[size + 1];
 
-Product* expandVector(Product*, unsigned short);
+	for (int i = 0; i < size; i++) {
+		newVector[i] = oldVector[i];
+	}
 
-int main() {
+	delete[] oldVector;
 
-	Product p;
+	return newVector;
+}
+
+void toPascalCase(char name[]) {
+
+	// criamos um ponteiro para manipular os caracteres atraves do seu endereço de memória
+	// sendo esse ponteiro igual ao endereço do primeiro caractere
+	char* p = name;
+	*p = toupper(name[0]);
+	for (int i = 1; i < strlen(name); i++)
+		// Utilizando aritmetica de vetores atualizamos o endereço de memoria de vetor e mudamos seu caractere atraves da função toupper sem retornar nada no final
+		*(p + i) = tolower(name[i]);
+}
+
+void StockController() {
+
+	
 	Product* stock;
 	ifstream fin;
 	unsigned short capacity = 0;
@@ -59,6 +74,7 @@ int main() {
 			char newName[24];
 			cout << "Produto: ";
 			cin >> newName;
+			toPascalCase(newName);
 			cout << "Preço: ";
 			float newPrice;
 			cin >> newPrice;
@@ -102,16 +118,20 @@ int main() {
 				cout << "\nProduto: [ ]\b\b";
 				cin >> choice;
 
+				--choice;
+
 				char confirmation;
-				cout << "Deseja excluir " << stock[choice - 1].name << " (S/N) ";
+				cout << "Deseja excluir " << stock[choice].name << " (S/N) ";
 				cin >> confirmation;
 				switch (tolower(confirmation))
 				{
 				case 's':
-					for (int i = choice - 1; i < numberOfProducts - 1; i++) {
-						strcpy(stock[i].name, stock[i + i].name);
+					//Product temp;
+					for (int i = choice; i < numberOfProducts - 1; i++) {
+						stock[i] = stock[i + 1];
+						/*strcpy(stock[i].name, stock[i + i].name);
 						stock[i].price = stock[i + 1].price;
-						stock[i].stock = stock[i + 1].stock;
+						stock[i].stock = stock[i + 1].stock;*/
 					}
 					strcpy(stock[numberOfProducts - 1].name, " ");
 					stock[numberOfProducts - 1].price = 0;
@@ -133,6 +153,8 @@ int main() {
 			else {
 				cout << "Listagem" << endl;
 				cout << "--------" << endl;
+				cout << fixed;
+				cout.precision(2);
 				for (int i = 0; i < numberOfProducts; i++) {
 					cout << left; cout.width(7);
 					cout << stock[i].name << "- R$" << stock[i].price << " - " << stock[i].stock << " und." << endl;
@@ -171,17 +193,6 @@ int main() {
 
 	fout.close();
 	delete[] stock;
-	return 0;
+	
 }
 
-Product* expandVector(Product * oldVector, unsigned short size) {
-	Product* newVector = new Product[size + 1];
-
-	for (int i = 0; i < size; i++) {
-		newVector[i] = oldVector[i];
-	}
-
-	delete[] oldVector;
-
-	return newVector;
-}

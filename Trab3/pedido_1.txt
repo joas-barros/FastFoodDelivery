@@ -1,9 +1,7 @@
 Pedido #1
 --------------------------------------------------
-6 X Pastel de R$4.00 = R$24.00
-3 X Pizza de R$30.00 = R$90.00
-2 X Suco de R$2.00 = R$4.00
+5 X Pizza de R$30.00 = R$150.00
 Taxa de entrega = R$6
-Desconto de 10% = R$12.40
+Desconto de 10% = R$15.60
 --------------------------------------------------
-Total = R$111.60
+Total = R$140.40
