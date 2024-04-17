@@ -1,7 +1,8 @@
 Pedido #1
 --------------------------------------------------
-5 X Pizza de R$30.00 = R$150.00
+2 X Suco de R$3.00 = R$6.00
+4 X Coca cola de R$3.00 = R$12.00
 Taxa de entrega = R$6
-Desconto de 10% = R$15.60
+Desconto de 10% = R$2.40
 --------------------------------------------------
-Total = R$140.40
+Total = R$21.60
